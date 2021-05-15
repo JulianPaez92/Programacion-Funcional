@@ -124,3 +124,77 @@ sumarTres = succ . (succ . succ) == succ . (twice' succ) == succ . sumarDos
 4 = 2 + 2 -- operacion nivel cero
 
 sumarDos x == (succ . sumarDos) x == succ (sumarDos x) == sumarDos x + 1 == x + 2 + 1 == x + 3
+{-
+--Ejercicios Practica 5
+
+-- Alto orden
+-- 1. Dar expresiones lambda para las siguientes funciones.
+-- suma
+-- snd
+-- head
+-- twice twice
+-- 2. Dar el tipo de las siguientes funciones.
+-- apply f = g
+-- where g x = f x
+-- flip f = g
+-- where g x y = f y x
+-- appDup f = g
+-- where g x = f ( x , x )
+-- appFork ( f , g ) = h
+-- where h x = ( f x , g x )
+-- 3. Teniendo en cuenta las definiciones anteriores, dar el tipo de las siguientes expresiones
+-- y escribirlas con expresiones lambda.
+-- apply fst
+-- twice twice
+-- twice flip
+-- appDup appFork
+-}
+
+--1) suma
+suma' x = \y -> x+y
+
+suma = \x -> suma x (\y -> x+y)
+
+sum'' =  \x y -> x+y
+
+--esto se hace si necesitas utilizar la función sólo una vez
+
+\x y -> x+y
+
+-- snd
+snd :: (a,b) -> b
+snd (_,y) = y 
+
+snd = \(_,y) -> y
+
+-- head 
+head :: 
+head = \
+
+--twice twice
+twice f = \x -> f (f x)
+twice twice = \x -> twice(twice x)
+
+doble x = 2*x
+
+(twice twice) doble 
+-> twice (twice doble) 
+-> \x -> (twice doble) ((twice doble) x)
+-> \x 
+
+--2) apply f = g
+apply :: (a -> b) -> (a -> b)
+apply f = g
+  where g x = f x
+
+(apply succ) 5 -> succ 5 -> 5+1 -> 6
+
+-- appFork ( f , g ) = h
+appFork :: (* -> *, * -> *) -> (* -> (*,*))
+appFork ( f , g ) = h
+  where h x = ( f x , g x )
+
+*Main> :t appFork
+--(appFork (doble, succ)) 5 -> (doble 5, succ 5) -> ... -> (10, 6)
+
+:i (.)
